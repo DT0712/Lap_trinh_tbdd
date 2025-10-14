@@ -5,7 +5,7 @@ import 'screens/text_detail_screen.dart';
 import 'screens/image_screen.dart';
 import 'screens/textfield_screen.dart';
 import 'screens/row_layout_screen.dart';
-import 'screens/column_layout_screen.dart'; // ✅ thêm dòng này
+import 'screens/column_layout_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
         '/image': (context) => const ImageScreen(),
         '/textfield': (context) => const TextFieldScreen(),
         '/rowlayout': (context) => const RowLayoutScreen(),
-        '/columnlayout': (context) =>
-            const ColumnLayoutScreen(), // ✅ thêm route mới
+        '/columnlayout': (context) => const ColumnLayoutScreen(),
       },
     );
   }

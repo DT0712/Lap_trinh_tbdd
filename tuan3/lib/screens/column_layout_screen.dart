@@ -6,7 +6,7 @@ class ColumnLayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // 👈 Nền toàn màn hình trắng hoàn toàn
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Column Layout',
@@ -21,16 +21,14 @@ class ColumnLayoutScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 30,
-        ), // kéo nhóm khối lên gần tiêu đề
+        padding: const EdgeInsets.only(top: 30),
         child: Align(
           alignment: Alignment.topCenter,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.85,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F5), // 👈 chỉ khung này có nền xám nhẹ
+              color: const Color(0xFFF5F5F5),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(

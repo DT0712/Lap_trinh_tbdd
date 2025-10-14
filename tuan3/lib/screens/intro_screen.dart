@@ -13,22 +13,19 @@ class IntroScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Phần trên: Logo + Tiêu đề + Mô tả
               Column(
                 children: [
-                  const SizedBox(
-                    height: 60,
-                  ), // 👈 Kéo toàn bộ cụm xuống thấp hơn
+                  const SizedBox(height: 60),
                   Image.asset(
                     'assets/images/jetpack_logo.png',
                     width: 160, // 👈 Logo to hơn
                     height: 160,
                   ),
-                  const SizedBox(height: 36), // 👈 Giãn cách giữa logo và chữ
+                  const SizedBox(height: 36),
                   const Text(
                     'Jetpack Compose',
                     style: TextStyle(
-                      fontSize: 24, // to hơn 1 chút
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -45,8 +42,6 @@ class IntroScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Phần dưới: Button “I’m ready”
               Column(
                 children: [
                   ElevatedButton(
@@ -69,7 +64,7 @@ class IntroScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  const SizedBox(height: 40), // Khoảng cách tới đáy màn hình
+                  const SizedBox(height: 40),
                 ],
               ),
             ],

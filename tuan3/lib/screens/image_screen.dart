@@ -11,10 +11,7 @@ class ImageScreen extends StatelessWidget {
   // Hàm mở link ngoài trình duyệt
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication, // Mở tab mới (Flutter Web)
-    )) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw Exception('Không mở được link: $url');
     }
   }
@@ -41,14 +38,12 @@ class ImageScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ẢNH ĐẦU (UTH 1)
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset('assets/images/uth_2.png', fit: BoxFit.cover),
             ),
             const SizedBox(height: 10),
 
-            // ĐƯỜNG LINK — có thể nhấn để mở
             GestureDetector(
               onTap: () => _launchURL(imageUrl),
               child: Text(
@@ -63,7 +58,6 @@ class ImageScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // ẢNH THỨ 2 (UTH 2)
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset('assets/images/uth_1.png', fit: BoxFit.cover),

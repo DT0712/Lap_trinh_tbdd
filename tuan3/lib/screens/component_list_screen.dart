@@ -18,7 +18,7 @@ class ComponentListScreen extends StatelessWidget {
       {
         'title': 'Column',
         'subtitle': 'Arranges elements vertically',
-        'route': '/columnlayout', // ✅ thêm route cho Column
+        'route': '/columnlayout',
       },
       {
         'title': 'Row',

@@ -8,10 +8,19 @@ class TextDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Text Detail', style: TextStyle(color: Colors.black)),
+        title: const Text(
+          'Text Detail',
+          style: TextStyle(color: Color(0xFF2B86E6)),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: const Color(0xFF2B86E6),
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
       ),
       body: const Padding(
         padding: EdgeInsets.all(24.0),
@@ -27,7 +36,7 @@ class TextDetailScreen extends StatelessWidget {
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),
-                // 👇 Tách riêng chữ 'B' và phần còn lại 'rown'
+                // Tách riêng chữ 'B' và phần còn lại 'rown'
                 TextSpan(
                   text: 'B',
                   style: TextStyle(

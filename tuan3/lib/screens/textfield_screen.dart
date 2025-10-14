@@ -15,10 +15,19 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('TextField', style: TextStyle(color: Colors.black)),
+        title: const Text(
+          'TextField',
+          style: TextStyle(color: Color(0xFF2B86E6)),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: const Color(0xFF2B86E6),
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),

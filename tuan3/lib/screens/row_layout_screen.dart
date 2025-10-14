@@ -5,7 +5,6 @@ class RowLayoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // màu giống mẫu
     const lightBox = Color(0xFFD7E9FF); // xanh nhạt
     const darkBox = Color(0xFF3F8BE6); // xanh đậm
     const rowBg = Color(0xFFF6F8FA); // nền khung hàng (rất nhạt)
@@ -68,7 +67,7 @@ class RowLayoutScreen extends StatelessWidget {
   // một ô chung (hình chữ nhật bo góc)
   static Widget _buildCell(Color bg) {
     return Container(
-      width: 90, // điều chỉnh kích thước nếu cần
+      width: 90,
       height: 48,
       margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
