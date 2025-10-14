@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'screens/intro_screen.dart';
 import 'screens/component_list_screen.dart';
 import 'screens/text_detail_screen.dart';
+import 'screens/image_screen.dart';
+import 'screens/textfield_screen.dart';
+import 'screens/row_layout_screen.dart';
+import 'screens/column_layout_screen.dart'; // ✅ thêm dòng này
 
 void main() {
   runApp(const MyApp());
@@ -18,13 +22,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
-        textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: 16)),
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => const IntroScreen(),
         '/components': (context) => const ComponentListScreen(),
         '/textDetail': (context) => const TextDetailScreen(),
+        '/image': (context) => const ImageScreen(),
+        '/textfield': (context) => const TextFieldScreen(),
+        '/rowlayout': (context) => const RowLayoutScreen(),
+        '/columnlayout': (context) =>
+            const ColumnLayoutScreen(), // ✅ thêm route mới
       },
     );
   }
