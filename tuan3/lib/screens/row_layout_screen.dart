@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 
-class RowLayoutScreen extends StatelessWidget {
+class RowLayoutScreen extends StatefulWidget {
   const RowLayoutScreen({super.key});
+
+  @override
+  State<RowLayoutScreen> createState() => _RowLayoutScreenState();
+}
+
+class _RowLayoutScreenState extends State<RowLayoutScreen> {
+  int selectedColumnIndex =
+      1; // ✅ Mặc định chọn cột giữa (0: trái, 1: giữa, 2: phải)
 
   @override
   Widget build(BuildContext context) {
     const lightBox = Color(0xFFD7E9FF); // xanh nhạt
     const darkBox = Color(0xFF3F8BE6); // xanh đậm
-    const rowBg = Color(0xFFF6F8FA); // nền khung hàng (rất nhạt)
+    const rowBg = Color(0xFFF6F8FA); // nền khung hàng
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Row Layout',
-          style: TextStyle(color: Color(0xFF2B86E6)),
+          style: TextStyle(
+            color: Color(0xFF2B86E6),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -50,29 +61,40 @@ class RowLayoutScreen extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildCell(lightBox),
-                    _buildCell(darkBox),
-                    _buildCell(lightBox),
-                  ],
+                  children: List.generate(3, (colIndex) {
+                    bool isSelected = selectedColumnIndex == colIndex;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedColumnIndex = colIndex;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        width: 90,
+                        height: 48,
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        decoration: BoxDecoration(
+                          color: isSelected ? darkBox : lightBox,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.blue.withOpacity(0.3),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ]
+                              : [],
+                        ),
+                      ),
+                    );
+                  }),
                 ),
               ),
             );
           }),
         ),
-      ),
-    );
-  }
-
-  // một ô chung (hình chữ nhật bo góc)
-  static Widget _buildCell(Color bg) {
-    return Container(
-      width: 90,
-      height: 48,
-      margin: const EdgeInsets.symmetric(horizontal: 6),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

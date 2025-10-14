@@ -7,14 +7,19 @@ class ComponentListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final components = [
+      // --- Display ---
       {'title': 'Text', 'subtitle': 'Displays text', 'route': '/textDetail'},
       {'title': 'Image', 'subtitle': 'Displays an image', 'route': '/image'},
+
+      // --- Input ---
       {
         'title': 'TextField',
         'subtitle': 'Input field for text',
         'route': '/textfield',
       },
       {'title': 'PasswordField', 'subtitle': 'Input field for passwords'},
+
+      // --- Layout ---
       {
         'title': 'Column',
         'subtitle': 'Arranges elements vertically',
@@ -24,6 +29,13 @@ class ComponentListScreen extends StatelessWidget {
         'title': 'Row',
         'subtitle': 'Arranges elements horizontally',
         'route': '/rowlayout',
+      },
+
+      // --- Feedback ---
+      {
+        'title': 'Feedback',
+        'subtitle': 'User feedback & rating',
+        'route': '/feedback',
       },
     ];
 
@@ -42,6 +54,7 @@ class ComponentListScreen extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Color(0xFF0D47A1)),
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -98,6 +111,7 @@ class ComponentListScreen extends StatelessWidget {
             const SizedBox(height: 8),
             ...components
                 .skip(4)
+                .take(2)
                 .map(
                   (c) => ComponentCard(
                     title: c['title']!,
@@ -109,6 +123,21 @@ class ComponentListScreen extends StatelessWidget {
                     },
                   ),
                 ),
+            const SizedBox(height: 16),
+
+            // --- Feedback ---
+            const Text(
+              "Feedback",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            ComponentCard(
+              title: components.last['title']!,
+              subtitle: components.last['subtitle']!,
+              onTap: () {
+                Navigator.pushNamed(context, components.last['route']!);
+              },
+            ),
           ],
         ),
       ),

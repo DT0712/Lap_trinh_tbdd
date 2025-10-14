@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ColumnLayoutScreen extends StatelessWidget {
+class ColumnLayoutScreen extends StatefulWidget {
   const ColumnLayoutScreen({super.key});
+
+  @override
+  State<ColumnLayoutScreen> createState() => _ColumnLayoutScreenState();
+}
+
+class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
+  int selectedIndex = 1; // mặc định ô giữa đậm
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +42,11 @@ class ColumnLayoutScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                buildBox(Colors.green.shade200),
+                buildBox(0),
                 const SizedBox(height: 10),
-                buildBox(Colors.green.shade400),
+                buildBox(1),
                 const SizedBox(height: 10),
-                buildBox(Colors.green.shade200),
+                buildBox(2),
               ],
             ),
           ),
@@ -48,13 +55,32 @@ class ColumnLayoutScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBox(Color color) {
-    return Container(
-      height: 100,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
+  Widget buildBox(int index) {
+    bool isSelected = selectedIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedIndex = index;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.green.shade400 : Colors.green.shade200,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Colors.green.withOpacity(0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
+        ),
       ),
     );
   }
