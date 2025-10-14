@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'intro_screen.dart'; // ✅ Thêm import để quay về IntroScreen
 
 class ImageScreen extends StatelessWidget {
   const ImageScreen({super.key});
 
-  // Link ảnh thật trên website UTH
+  // ✅ Link ảnh thật trên website UTH
   final String imageUrl =
       'https://giaothongvantaitphcm.edu.vn/wp-content/uploads/2025/01/Logo-GTVT.png';
 
-  // Hàm mở link ngoài trình duyệt
+  // ✅ Hàm mở link ngoài trình duyệt
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
@@ -23,7 +24,14 @@ class ImageScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.blue),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            // ✅ Khi bấm back, quay về IntroScreen và xóa các màn hình trước đó
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const IntroScreen()),
+              (route) => false,
+            );
+          },
         ),
         title: const Text(
           'Images',
@@ -33,6 +41,8 @@ class ImageScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
+
+      // ✅ Cuộn mượt với nhiều hình
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -44,6 +54,7 @@ class ImageScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // ✅ Nhấn vào link sẽ mở ngoài trình duyệt
             GestureDetector(
               onTap: () => _launchURL(imageUrl),
               child: Text(
@@ -64,7 +75,6 @@ class ImageScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // Ghi chú
             const Text(
               'In app',
               style: TextStyle(fontSize: 14, color: Colors.grey),

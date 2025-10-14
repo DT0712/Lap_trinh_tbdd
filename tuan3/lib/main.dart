@@ -6,7 +6,7 @@ import 'screens/image_screen.dart';
 import 'screens/textfield_screen.dart';
 import 'screens/row_layout_screen.dart';
 import 'screens/column_layout_screen.dart';
-import 'screens/feedback_screen.dart'; // ✅ thêm dòng này
+import 'screens/feedback_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/textfield': (context) => const TextFieldScreen(),
         '/rowlayout': (context) => const RowLayoutScreen(),
         '/columnlayout': (context) => const ColumnLayoutScreen(),
-        '/feedback': (context) => const FeedbackScreen(), // ✅ thêm dòng này
+        '/feedback': (context) => const FeedbackScreen(),
       },
     );
   }

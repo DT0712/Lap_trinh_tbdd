@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'intro_screen.dart';
 
 class ColumnLayoutScreen extends StatefulWidget {
   const ColumnLayoutScreen({super.key});
@@ -8,7 +9,8 @@ class ColumnLayoutScreen extends StatefulWidget {
 }
 
 class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
-  int selectedIndex = 1; // mặc định ô giữa đậm
+  int selectedIndex = 1; // ✅ Mặc định ô giữa đậm
+  final int itemCount = 10; // ✅ Số lượng ô hiển thị (tùy chỉnh)
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,20 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.blue),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            // ✅ Khi bấm back, quay về IntroScreen và xóa các màn hình trước đó
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const IntroScreen()),
+              (route) => false,
+            );
+          },
         ),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
+
+      // ✅ Dùng ListView.builder để tạo LazyColumn
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Align(
@@ -38,16 +49,16 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
               color: const Color(0xFFF5F5F5),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                buildBox(0),
-                const SizedBox(height: 10),
-                buildBox(1),
-                const SizedBox(height: 10),
-                buildBox(2),
-              ],
+            child: ListView.builder(
+              shrinkWrap: true, // ✅ Giúp danh sách co giãn vừa nội dung
+              physics: const BouncingScrollPhysics(),
+              itemCount: itemCount,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: buildBox(index),
+                );
+              },
             ),
           ),
         ),
@@ -55,6 +66,7 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
     );
   }
 
+  // ✅ Hàm build từng ô (box)
   Widget buildBox(int index) {
     bool isSelected = selectedIndex == index;
 
@@ -80,6 +92,15 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
                   ),
                 ]
               : [],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          'Box ${index + 1}',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: isSelected ? 20 : 16,
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'intro_screen.dart';
 
 class RowLayoutScreen extends StatefulWidget {
   const RowLayoutScreen({super.key});
@@ -34,7 +35,14 @@ class _RowLayoutScreenState extends State<RowLayoutScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: const Color(0xFF2B86E6),
-          onPressed: () => Navigator.of(context).maybePop(),
+          onPressed: () {
+            // ✅ Khi bấm back, quay về IntroScreen và xóa các trang trước đó
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const IntroScreen()),
+              (route) => false,
+            );
+          },
         ),
       ),
       body: Padding(

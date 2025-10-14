@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'intro_screen.dart'; // ✅ Thêm import IntroScreen
 
 class TextDetailScreen extends StatelessWidget {
   const TextDetailScreen({super.key});
@@ -19,7 +20,14 @@ class TextDetailScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: const Color(0xFF2B86E6),
-          onPressed: () => Navigator.of(context).maybePop(),
+          onPressed: () {
+            // ✅ Khi bấm back, quay thẳng về IntroScreen và xóa toàn bộ stack
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const IntroScreen()),
+              (route) => false,
+            );
+          },
         ),
       ),
       body: const Padding(
@@ -36,11 +44,10 @@ class TextDetailScreen extends StatelessWidget {
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),
-                // Tách riêng chữ 'B' và phần còn lại 'rown'
                 TextSpan(
                   text: 'B',
                   style: TextStyle(
-                    fontSize: 36, // Gấp đôi 24
+                    fontSize: 36,
                     color: Colors.brown,
                     fontWeight: FontWeight.bold,
                   ),

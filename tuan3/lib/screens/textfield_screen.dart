@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'intro_screen.dart'; // ✅ Thêm import IntroScreen
 
 class TextFieldScreen extends StatefulWidget {
   const TextFieldScreen({super.key});
@@ -26,7 +27,14 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: const Color(0xFF2B86E6),
-          onPressed: () => Navigator.of(context).maybePop(),
+          onPressed: () {
+            // ✅ Khi bấm back, quay thẳng về IntroScreen
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const IntroScreen()),
+              (route) => false,
+            );
+          },
         ),
       ),
       body: Padding(
@@ -46,9 +54,9 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
               },
             ),
             const SizedBox(height: 12),
-            Text(
+            const Text(
               'Tự động cập nhật dữ liệu theo textfield',
-              style: const TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red),
             ),
             const SizedBox(height: 24),
             Text(
