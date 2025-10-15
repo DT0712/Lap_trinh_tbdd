@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'intro_screen.dart'; // ✅ Thêm import để quay về IntroScreen
+import 'intro_screen.dart';
 
 class ImageScreen extends StatelessWidget {
   const ImageScreen({super.key});
 
-  // ✅ Link ảnh thật trên website UTH
   final String imageUrl =
       'https://giaothongvantaitphcm.edu.vn/wp-content/uploads/2025/01/Logo-GTVT.png';
 

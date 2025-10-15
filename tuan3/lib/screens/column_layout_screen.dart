@@ -37,7 +37,7 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
         elevation: 0,
       ),
 
-      // ✅ Dùng ListView.builder để tạo LazyColumn
+      // ListView.builder để tạo LazyColumn
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Align(
@@ -50,7 +50,7 @@ class _ColumnLayoutScreenState extends State<ColumnLayoutScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListView.builder(
-              shrinkWrap: true, // ✅ Giúp danh sách co giãn vừa nội dung
+              shrinkWrap: true, // Giúp danh sách co giãn vừa nội dung
               physics: const BouncingScrollPhysics(),
               itemCount: itemCount,
               itemBuilder: (context, index) {
