@@ -1,25 +1,104 @@
 import 'package:flutter/material.dart';
 
 class ConfirmScreen extends StatefulWidget {
-  const ConfirmScreen({super.key});
+  final String email;
+  final String code;
+  final String password;
+
+  const ConfirmScreen({
+    super.key,
+    required this.email,
+    required this.code,
+    required this.password,
+  });
 
   @override
   State<ConfirmScreen> createState() => _ConfirmScreenState();
 }
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
-  final TextEditingController emailController = TextEditingController(
-    text: "uth@gmail.com",
-  );
-  final TextEditingController codeController = TextEditingController(
-    text: "123456",
-  );
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = true; // 👁️ kiểm soát xem/ẩn mật khẩu
+
+  @override
+  void initState() {
+    super.initState();
+    // 🔹 Mặc định ban đầu để trống
+    emailController.text = "";
+    codeController.text = "";
+    passwordController.text = "";
+  }
+
+  void _handleConfirm() {
+    String email = emailController.text.trim();
+    String code = codeController.text.trim();
+    String pass = passwordController.text.trim();
+
+    if (email.isEmpty || code.isEmpty || pass.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    // ✅ So sánh dữ liệu nhập với dữ liệu được truyền từ màn hình trước
+    if (email == widget.email &&
+        code == widget.code &&
+        pass == widget.password) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text("✅ Success"),
+          content: const Text("Your password has been reset successfully!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Incorrect information. Please check again.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // 🟦 AppBar với nút Back
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          "Confirm",
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
+        ),
+        centerTitle: true,
+      ),
+
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
@@ -38,23 +117,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
 
-              const SizedBox(height: 36),
-
-              // 🔹 Title & subtitle
-              const Text(
-                "Confirm",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 28),
               const Text(
                 "We are here to help you!",
                 style: TextStyle(fontSize: 15, color: Colors.black54),
               ),
-
               const SizedBox(height: 28),
 
               // 🔹 Email
@@ -77,7 +144,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.mail_outline),
-                  labelText: "Code",
+                  labelText: "Verify Code",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -85,13 +152,26 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
               const SizedBox(height: 16),
 
-              // 🔹 New Password
+              // 🔹 New Password (có xem/ẩn mật khẩu)
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.lock_outline),
-                  labelText: "New password",
+                  labelText: "Password",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -100,7 +180,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
               const SizedBox(height: 28),
 
-              // 🔹 Nút Summit
+              // 🔹 Nút Confirm
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -111,48 +191,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: () {
-                    String email = emailController.text.trim();
-                    String code = codeController.text.trim();
-                    String pass = passwordController.text.trim();
-
-                    if (email.isEmpty || code.isEmpty || pass.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please fill in all fields.'),
-                        ),
-                      );
-                      return;
-                    }
-
-                    // 🔹 Hiển thị thông báo xác nhận thành công
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        title: const Text("Success"),
-                        content: const Text(
-                          "Your password has been reset successfully!",
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.popUntil(
-                                context,
-                                (route) => route.isFirst,
-                              );
-                            },
-                            child: const Text("OK"),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  onPressed: _handleConfirm,
                   child: const Text(
-                    "Summit",
+                    "Confirm",
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),

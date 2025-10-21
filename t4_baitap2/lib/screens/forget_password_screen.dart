@@ -11,6 +11,37 @@ class ForgetPasswordScreen extends StatefulWidget {
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
 
+  // 🧩 Hàm kiểm tra định dạng email
+  bool _isValidEmail(String email) {
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return regex.hasMatch(email);
+  }
+
+  void _handleSendCode() {
+    final email = emailController.text.trim();
+
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter your email.')));
+      return;
+    }
+
+    if (!_isValidEmail(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid email format. Please check again.'),
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VerifyCodeScreen(email: email)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +78,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 style: TextStyle(color: Colors.black54, fontSize: 15),
               ),
               const SizedBox(height: 24),
+
+              // 📧 Ô nhập email
               TextField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
-                  prefixIcon: const Icon(Icons.email),
+                  prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
+
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
@@ -68,23 +103,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
-                    final email = emailController.text.trim();
-                    if (email.isNotEmpty) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VerifyCodeScreen(email: email),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter your email.'),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: _handleSendCode,
                   child: const Text(
                     "Send Code",
                     style: TextStyle(fontSize: 16, color: Colors.white),

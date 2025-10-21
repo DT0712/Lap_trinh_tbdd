@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'reset_password_screen.dart';
@@ -12,17 +13,27 @@ class VerifyCodeScreen extends StatefulWidget {
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   String otpCode = "";
+  late String generatedOtp; // 🧩 Mã OTP ngẫu nhiên
+
+  // 🔹 Hàm tạo mã OTP ngẫu nhiên 6 chữ số
+  String _generateRandomOTP() {
+    final random = Random();
+    return (100000 + random.nextInt(900000)).toString(); // từ 100000 đến 999999
+  }
 
   @override
   void initState() {
     super.initState();
+    generatedOtp = _generateRandomOTP();
+
+    // 🕓 Hiển thị thông báo chứa mã OTP (thời gian dài hơn)
     Future.delayed(const Duration(milliseconds: 500), () {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            "📩 Verification code (123456) sent to ${widget.email}",
+            "📩 Verification code ($generatedOtp) sent to ${widget.email}",
           ),
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 12), // ⏳ Thời gian hiển thị lâu hơn
         ),
       );
     });
@@ -32,12 +43,29 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
+      // 🔹 AppBar với nút Back
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          "Verify Code",
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
+        ),
+        centerTitle: true,
+      ),
+
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // 🔹 Logo + Tên ứng dụng
               Image.asset('assets/images/uth_logo.png', height: 100),
               const SizedBox(height: 8),
               const Text(
@@ -49,8 +77,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 ),
               ),
               const SizedBox(height: 24),
+
               const Text(
-                "Verification Code",
+                "Verify Code",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -59,7 +88,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                "Enter the 6-digit code sent to ${widget.email}",
+                "Enter the code we just sent you on your registered ${widget.email}",
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black54),
               ),
@@ -81,6 +110,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               ),
 
               const SizedBox(height: 28),
+
+              // 🔹 Nút Verify
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -92,17 +123,21 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     ),
                   ),
                   onPressed: () {
-                    if (otpCode == "123456") {
+                    if (otpCode == generatedOtp) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
+                          builder: (context) => ResetPasswordScreen(
+                            email: widget.email,
+                            code: generatedOtp,
+                          ),
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Invalid code! Please try again.'),
+                          duration: Duration(seconds: 3),
                         ),
                       );
                     }
